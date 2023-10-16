@@ -8,13 +8,13 @@ class GameService {
         this.gameList = new Array();
     }
 
-    addNewGame(gameName, description, publicherCompany, category, price, gameState, requirments, discountPercentage) {
+    addNewGame(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage) {
         if (validationFunction(gameName, 'string', Object.keys({gameName})[0]) && validationFunction(description, 'string', Object.keys({description})[0])
-            && validationFunction(publicherCompany, 'object', Object.keys({publicherCompany})[0]) && validationFunction(category, 'object', Object.keys({category})[0])
+            && validationFunction(publisherCompany, 'object', Object.keys({publisherCompany})[0]) && validationFunction(category, 'object', Object.keys({category})[0])
             && validationFunction(price, 'number', Object.keys({price})[0]) && validationFunction(gameState, 'boolean', Object.keys({gameState})[0])
-            && validationFunction(requirments, 'string', Object.keys({requirments})[0]) && validationFunction(discountPercentage, 'number', Object.keys({discountPercentage})[0])
+            && validationFunction(requirements, 'string', Object.keys({requirements})[0]) && validationFunction(discountPercentage, 'number', Object.keys({discountPercentage})[0])
         ) {
-            const newGame = new Game(gameName, description, publicherCompany, category, price, gameState, requirments, discountPercentage);
+            const newGame = new Game(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage);
             this.gameList.push(newGame);
         }
 

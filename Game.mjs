@@ -2,21 +2,21 @@ export class Game {
     id;
     gameName;
     description;
-    publicherCompany;
+    publisherCompany;
     category;
     price;
     gameState;
-    requirments;
+    requirements;
     discountPercentage;
-    constructor(gameName, description, publicherCompany, category, price, gameState, requirments, discountPercentage) {
+    constructor(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage) {
         this.id = Math.floor(new Date().valueOf() * Math.random());
         this.gameName = gameName;
         this.description = description;
-        this.publicherCompany = publicherCompany;
+        this.publisherCompany = publisherCompany;
         this.category = category;
         this.price = price;
         this.gameState = gameState;
-        this.requirments = requirments;
+        this.requirements = requirements;
         this.discountPercentage = discountPercentage;
     }
 }
