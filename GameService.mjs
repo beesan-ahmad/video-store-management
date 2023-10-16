@@ -8,15 +8,33 @@ class GameService {
         this.gameList = new Array();
     }
 
+    // check game is Exist 
+    isExist(game) {
+        let isExist = - 1;
+        if (typeof game === 'string') {
+
+            this.gameList.find((item, index) => {
+                if (item.gameName.toLowerCase() === game.toLowerCase()) {
+                    isExist = index;
+                }
+            })
+        } else {
+            console.log("Please check game name!");
+        }
+        return isExist;
+    }
+    
     addNewGame(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage) {
-        if (validationFunction(gameName, 'string', Object.keys({gameName})[0]) && validationFunction(description, 'string', Object.keys({description})[0])
-            && validationFunction(publisherCompany, 'object', Object.keys({publisherCompany})[0]) && validationFunction(category, 'object', Object.keys({category})[0])
-            && validationFunction(price, 'number', Object.keys({price})[0]) && validationFunction(gameState, 'boolean', Object.keys({gameState})[0])
-            && validationFunction(requirements, 'string', Object.keys({requirements})[0]) && validationFunction(discountPercentage, 'number', Object.keys({discountPercentage})[0])
-        ) {
+        if (this.isExist(gameName) === -1) {
             const newGame = new Game(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage);
             this.gameList.push(newGame);
+            return true;
+        } else {
+            return false;
         }
-
     }
+
+
 }
+
+
