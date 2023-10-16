@@ -16,6 +16,6 @@ class Game {
         this.price = price;
         this.gameState = gameState;
         this.requirments = requirments;
-        this.discountPercentage=discountPercentage;
+        this.discountPercentage = discountPercentage;
     }
 }

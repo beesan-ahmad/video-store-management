@@ -3,6 +3,6 @@ export class Publisher {
     publisherName;
     constructor (publisherName) {
         this.id = Math.floor(new Date().valueOf() * Math.random());
-        this.publisherName=publisherName;
+        this.publisherName = publisherName;
     }
 }
