@@ -23,7 +23,7 @@ class GameService {
         }
         return isExist;
     }
-    
+
     addNewGame(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage) {
         if (this.isExist(gameName) === -1) {
             const newGame = new Game(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage);
@@ -34,6 +34,9 @@ class GameService {
         }
     }
 
+    getGameList() {
+        return this.gameList;
+     }
 
 }
 
