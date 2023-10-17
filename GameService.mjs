@@ -40,10 +40,10 @@ class GameService {
                 });
     
                 if (categoryService.categoryList.length > 0) {
-                    let newCatgore = await getInput("Please enter choose category number:");
+                    let catgoreNumber = await getInput("Please enter choose category number:");
     
-                    if (newCatgore && typeof +newCatgore === 'number' && newCatgore <= categoryService.categoryList.length) {
-                        game.editGameCategory(categoryService.categoryList[newCatgore - 1]);
+                    if (catgoreNumber && typeof +catgoreNumber === 'number' && catgoreNumber <= categoryService.categoryList.length) {
+                        game.editGameCategory(categoryService.categoryList[catgoreNumber - 1]);
                         console.log(game);
                     } else {
                         console.log("Please enter valid category number.");
@@ -65,16 +65,16 @@ class GameService {
                 }
                 break;
             case 4:
-                const publicherService = PublisherService;
-                publicherService.publisherList.forEach((category, index) => {
-                    console.log(`${index + 1}. ${category.categoryName}`);
+                const publisherService = PublisherService;
+                publisherService.publisherList.forEach((publisher, index) => {
+                    console.log(`${index + 1}. ${publisher.publisherName}`);
                 });
     
-                if (publicherService.publisherList.length > 0) {
-                    let newCatgore = await getInput("Please enter choose publisher company number:");
+                if (publisherService.publisherList.length > 0) {
+                    let publisherNumber = await getInput("Please enter choose publisher company number:");
     
-                    if (newCatgore && typeof +newCatgore === 'number' && newCatgore <= publicherService.publisherList.length) {
-                        game.editGamePublisherCompany(publicherService.publisherList[newCatgore - 1]);
+                    if (publisherNumber && typeof +publisherNumber === 'number' && publisherNumber <= publisherService.publisherList.length) {
+                        game.editGamePublisherCompany(publisherService.publisherList[publisherNumber - 1]);
                         console.log(game);
                     } else {
                         console.log("Please enter valid publisher company number.");
@@ -193,8 +193,8 @@ const gameService = new GameService();
     categoryService.addCategory(category);
     gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
     gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
-    gameService.deleteGame("apex");
-    //gameService.editGame("apex");
-       console.log(gameService.getGameList());
+    //gameService.deleteGame("apex");
+    gameService.editGame("apex");
+       //console.log(gameService.getGameList());
 
 
