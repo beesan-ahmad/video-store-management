@@ -1,16 +1,16 @@
-import { validationFunction , getInput } from "./helper.mjs";
+import { validationFunction ,getInput } from "./helper.mjs";
 import { Publisher } from './Publisher.mjs'
 import { Category } from './Category.mjs'
 import { Game } from './Game.mjs'
 import { CategoryService } from "./CategoryService.mjs";
 import { PublisherService } from "./PublisherService.mjs"
-class GameService {
+export class GameService {
     gameList;
     constructor() {
         this.gameList = new Array();
     }
 
-    editGameProperties = async (game) => {
+    editGameProperties = (game) => {
         console.log(game);
         console.log("-------------------------------------------------------------");
         console.log("1- edit game name");
@@ -21,10 +21,10 @@ class GameService {
         console.log("6- edit gameState");
         console.log("7- edit requirements");
         console.log("8- edit discountPercentage");
-        const option = await getInput("Please select option:");
+        const option = getInput("Please select option:");
         switch (+option) {
             case 1:
-                let newName = await getInput("Please enter new name:");
+                let newName = getInput("Please enter new name:");
     
                 if (newName && typeof newName === 'string') {
                     game.editGameName(newName);
@@ -40,10 +40,10 @@ class GameService {
                 });
     
                 if (categoryService.categoryList.length > 0) {
-                    let newCatgore = await getInput("Please enter choose category number:");
+                    let catgoreNumber = getInput("Please enter choose category number:");
     
-                    if (newCatgore && typeof +newCatgore === 'number' && newCatgore <= categoryService.categoryList.length) {
-                        game.editGameCategory(categoryService.categoryList[newCatgore - 1]);
+                    if (catgoreNumber && typeof +catgoreNumber === 'number' && catgoreNumber <= categoryService.categoryList.length && catgoreNumber > 0) {
+                        game.editGameCategory(categoryService.categoryList[catgoreNumber - 1]);
                         console.log(game);
                     } else {
                         console.log("Please enter valid category number.");
@@ -54,7 +54,7 @@ class GameService {
                 }
                 break;
             case 3:
-                let newDescription = await getInput("Please enter new description:");
+                let newDescription = getInput("Please enter new description:");
     
                 if (newDescription && typeof newDescription === 'string') {
                     game.editGameDescription(newDescription);
@@ -65,16 +65,16 @@ class GameService {
                 }
                 break;
             case 4:
-                const publicherService = PublisherService;
-                publicherService.publisherList.forEach((category, index) => {
-                    console.log(`${index + 1}. ${category.categoryName}`);
+                const publisherService = PublisherService;
+                publisherService.publisherList.forEach((publisher, index) => {
+                    console.log(`${index + 1}. ${publisher.publisherName}`);
                 });
     
-                if (publicherService.publisherList.length > 0) {
-                    let newCatgore = await getInput("Please enter choose publisher company number:");
+                if (publisherService.publisherList.length > 0) {
+                    let publisherNumber = getInput("Please enter choose publisher company number:");
     
-                    if (newCatgore && typeof +newCatgore === 'number' && newCatgore <= publicherService.publisherList.length) {
-                        game.editGamePublisherCompany(publicherService.publisherList[newCatgore - 1]);
+                    if (publisherNumber && typeof +publisherNumber === 'number' && publisherNumber <= publisherService.publisherList.length && publisherNumber > 0) {
+                        game.editGamePublisherCompany(publisherService.publisherList[publisherNumber - 1]);
                         console.log(game);
                     } else {
                         console.log("Please enter valid publisher company number.");
@@ -85,7 +85,7 @@ class GameService {
                 }
                 break;
             case 5:
-                let newPrice = await getInput("Please enter new price:");
+                let newPrice = getInput("Please enter new price:");
     
                 if (newPrice && typeof +newPrice === 'number' && +newPrice >= 0) {
                     game.editGamePrice(newPrice);
@@ -96,7 +96,7 @@ class GameService {
                 break;
             case 6:
                 console.log("game state 1-paid  2-free ");
-                let newGameState = await getInput("Please choose state:");
+                let newGameState = getInput("Please choose state:");
     
                 if (newGameState && typeof +newGameState === 'number' && +newGameState > 0 && +newGameState <= 2) {
                     game.editGameState(+newGameState === 1 ? true : false);
@@ -107,7 +107,7 @@ class GameService {
                 }
                 break;
             case 7:
-                let newRequirements = await getInput("Please enter new requirements:");
+                let newRequirements = getInput("Please enter new requirements:");
     
                 if (newRequirements && typeof newRequirements === 'string') {
                     game.editGameRequirements(newRequirements);
@@ -117,7 +117,7 @@ class GameService {
                 }
                 break;
             case 8:
-                let newDiscountPercentage = await getInput("Please enter new discount percentage:");
+                let newDiscountPercentage = getInput("Please enter new discount percentage:");
     
                 if (newDiscountPercentage && typeof +newDiscountPercentage === 'number' && +newDiscountPercentage > 0) {
                     game.editGameDiscountPercentage(newDiscountPercentage);
@@ -163,14 +163,38 @@ class GameService {
         return this.gameList;
     }
 
-    async editGame(gameName) {
+     editGame(gameName) {
         const game = this.isExist(gameName);
         if (game) {
             this.editGameProperties(game);
+            return true;
         } else {
             console.log("Game not found!");
+            return false;
+        }
+    }
+
+    deleteGame(gameName) {
+        const game = this.isExist(gameName);
+        if (game) {
+            this.gameList.splice(this.gameList.indexOf(game),1);
+            return true;
+        } else {
+            console.log("Game not found!");
+            return false;
         }
     }
 }
+
+const gameService = new GameService();
+    const publicherCompany = new Publisher("Apple");
+    const category = new Category("Action");
+    const categoryService = CategoryService;
+    categoryService.addCategory(category);
+    gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+    gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+    //gameService.deleteGame("apex");
+    gameService.editGame("apex");
+       //console.log(gameService.getGameList());
 
 
