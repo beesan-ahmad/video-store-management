@@ -1,11 +1,9 @@
 
 export class CategoryService {
-    categoryList;
-    constructor() {
-        this.categoryList = new Array();
-    }
+    static categoryList = new Array();
+
     // check if the category is exist 
-    isExist(category) {
+    static isExist(category) {
         let isExist = - 1;
         if (typeof category === 'object') {
 
@@ -20,7 +18,7 @@ export class CategoryService {
         return isExist;
     }
     //  Add a new category to list 
-    addCategory(category) {
+    static addCategory(category) {
         if (category && typeof category === 'object') {
             if (this.isExist(category) === -1) {
                 this.categoryList.push(category);
