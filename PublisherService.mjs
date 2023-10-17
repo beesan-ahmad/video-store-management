@@ -1,17 +1,13 @@
 export class PublisherService {
-    publisherList;
-
-    constructor () {
-        this.publisherList = new Array();
-    }
+  static publisherList = new Array();
 
     // check publisher is Exist 
-    isExist(publisher) {
+    static isExist(publisher) {
         let isExist = - 1;
-        if (typeof publisher === 'object' ) {
+        if (typeof publisher === 'object') {
 
             this.publisherList.find((item, index) => {
-                if(item.publisherName.toLowerCase() === publisher.publisherName.toLowerCase()) {
+                if (item.publisherName.toLowerCase() === publisher.publisherName.toLowerCase()) {
                     isExist = index;
                 }
             })
@@ -20,9 +16,9 @@ export class PublisherService {
         }
         return isExist;
     }
-
+    
     //  Add a new publisher to list 
-    addPublisher(publisher) {
+    static addPublisher(publisher) {
         if (publisher && typeof publisher === 'object') {
             if (this.isExist(publisher) === -1) {
                 this.publisherList.push(publisher);

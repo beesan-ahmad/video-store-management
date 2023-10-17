@@ -1,4 +1,7 @@
 {
     "type": "module",
-    "main": "Category.mjs"
+    "main": "Category.mjs",
+    "dependencies": {
+        "readline-sync": "^1.4.10"
+    }
 }
