@@ -19,4 +19,37 @@ export class Game {
         this.requirements = requirements;
         this.discountPercentage = discountPercentage;
     }
+
+    editGameName(name) {
+        this.gameName = name;
+    }
+
+    editGameDescription(description) {
+        this.description = description;
+    }
+
+    editGamePublisherCompany(publisherCompany) {
+        this.publisherCompany = publisherCompany;
+    }
+
+    editGameCategory(category) {
+        this.category = category;
+    }
+
+    editGamePrice(price) {
+        this.price = price;
+    }
+
+    editGameState(gameState) {
+        this.gameState = gameState;
+    }
+
+    editGameRequirements(requirements) {
+        this.requirements = requirements;
+    }
+
+    editGameDiscountPercentage(discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
 }
