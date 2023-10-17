@@ -42,7 +42,7 @@ class GameService {
                 if (categoryService.categoryList.length > 0) {
                     let catgoreNumber = await getInput("Please enter choose category number:");
     
-                    if (catgoreNumber && typeof +catgoreNumber === 'number' && catgoreNumber <= categoryService.categoryList.length) {
+                    if (catgoreNumber && typeof +catgoreNumber === 'number' && catgoreNumber <= categoryService.categoryList.length && catgoreNumber > 0) {
                         game.editGameCategory(categoryService.categoryList[catgoreNumber - 1]);
                         console.log(game);
                     } else {
@@ -73,7 +73,7 @@ class GameService {
                 if (publisherService.publisherList.length > 0) {
                     let publisherNumber = await getInput("Please enter choose publisher company number:");
     
-                    if (publisherNumber && typeof +publisherNumber === 'number' && publisherNumber <= publisherService.publisherList.length) {
+                    if (publisherNumber && typeof +publisherNumber === 'number' && publisherNumber <= publisherService.publisherList.length && publisherNumber > 0) {
                         game.editGamePublisherCompany(publisherService.publisherList[publisherNumber - 1]);
                         console.log(game);
                     } else {
