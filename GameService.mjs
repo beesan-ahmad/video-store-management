@@ -10,12 +10,12 @@ class GameService {
 
     // check game is Exist 
     isExist(game) {
-        let isExist = - 1;
+        let isExist;
         if (typeof game === 'string') {
 
             this.gameList.find((item, index) => {
                 if (item.gameName.toLowerCase() === game.toLowerCase()) {
-                    isExist = index;
+                    isExist = item;
                 }
             })
         } else {
@@ -25,7 +25,7 @@ class GameService {
     }
 
     addNewGame(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage) {
-        if (this.isExist(gameName) === -1) {
+        if (this.isExist(gameName) === undefined) {
             const newGame = new Game(gameName, description, publisherCompany, category, price, gameState, requirements, discountPercentage);
             this.gameList.push(newGame);
             return true;
@@ -36,8 +36,7 @@ class GameService {
 
     getGameList() {
         return this.gameList;
-     }
-
+     } 
 }
 
 
