@@ -167,10 +167,34 @@ class GameService {
         const game = this.isExist(gameName);
         if (game) {
             this.editGameProperties(game);
+            return true;
         } else {
             console.log("Game not found!");
+            return false;
+        }
+    }
+
+    deleteGame(gameName) {
+        const game = this.isExist(gameName);
+        if (game) {
+            this.gameList.splice(this.gameList.indexOf(game),1);
+            return true;
+        } else {
+            console.log("Game not found!");
+            return false;
         }
     }
 }
+
+const gameService = new GameService();
+    const publicherCompany = new Publisher("Apple");
+    const category = new Category("Action");
+    const categoryService = CategoryService;
+    categoryService.addCategory(category);
+    gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+    gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+    gameService.deleteGame("apex");
+    //gameService.editGame("apex");
+       console.log(gameService.getGameList());
 
 
