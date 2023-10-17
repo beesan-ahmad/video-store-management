@@ -9,6 +9,6 @@ export const validationFunction = (value, expectedType, variableName) => {
     }
 }
 
-export const getInput = async(input) => {
+export const getInput = (input) => {
     return readlineSync.question(input);
   }
