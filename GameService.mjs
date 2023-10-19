@@ -5,6 +5,7 @@ import { Game } from './Game.mjs'
 import { CategoryService } from "./CategoryService.mjs";
 import { PublisherService } from "./PublisherService.mjs"
 import readlineSync from 'readline-sync';
+import { Interface } from "./interface.mjs";
 export class GameService {
     gameList;
     constructor() {
@@ -203,13 +204,13 @@ Discount Percentage: ${game.discountPercentage}%
 
     async liveSearch(by) {
         let filteredData;
-
+        let interfaceObj = new Interface();
         console.log('Type your search query and press Enter to search. Type "0" and press Enter to stop search.');
         const searchQuery = readlineSync.question(`Search by ${by}: `);
 
         if (searchQuery === "0") {
             console.log("search stop.");
-            return;
+            interfaceObj.start();
         } else {
             if (by === 'game name') {
                 filteredData = this.gameList.filter(item => item.gameName?.toLowerCase().includes(searchQuery?.toLowerCase()));
@@ -261,7 +262,7 @@ Discount Percentage: ${game.discountPercentage}%
                         console.log("Please enter valid game number!");
                     }
                 } else {
-                    return;
+                    interfaceObj.start();
                 }
                 
             } else {

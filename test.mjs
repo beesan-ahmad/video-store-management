@@ -1,11 +1,9 @@
 import { Category } from "./Category.mjs";
 import { CategoryService } from "./CategoryService.mjs";
-import { GameService } from "./GameService.mjs";
 import { Publisher } from "./Publisher.mjs";
 import { PublisherService } from "./PublisherService.mjs";
 import { Interface } from "./interface.mjs";
 
-const gameService = new GameService();
 const interfaceObj = new Interface();
 
 for (let i = 1; i <= 10; i++) {
