@@ -1,5 +1,5 @@
 import { CategoryService } from './CategoryService.mjs';
-import { getInput } from './helper.mjs';
+import { getInput, searchType } from './helper.mjs';
 import { GameService } from './GameService.mjs';
 import { PublisherService } from './PublisherService.mjs';
 import { Publisher } from './Publisher.mjs';
@@ -9,6 +9,10 @@ const publisherService = PublisherService;
 class Interface {
 
     gameService = new GameService();
+    categoryService = CategoryService;
+
+    publisherService = PublisherService;
+
     addNewGame() {
         console.log("This function will add a new game");
         const gameName = getInput("Enter game name:");
@@ -30,7 +34,6 @@ class Interface {
             console.log("please enter a valid description \n return the user to add a new game \n***************************");
             this.addNewGame();
         }
-        //************************ */
 
         publisherService.publisherList.forEach((company, index) => {
             console.log(`${index + 1}. ${company.publisherName}`);
@@ -45,8 +48,6 @@ class Interface {
 
             } else {
 
-                // setTimeout(()=>{console.clear();this.addNewGame()}, 1000);
-
                 console.clear();
                 console.log("please enter a valid publisher company number. \n return the user to add a new game \n***************************");
                 this.addNewGame();
@@ -57,7 +58,6 @@ class Interface {
         else {
             console.log("Please add publisher.");
         }
-        //this.start();
 
         CategoryService.categoryList.forEach((cat, index) => {
             console.log(`${index + 1}. ${cat.categoryName}`);
@@ -78,7 +78,7 @@ class Interface {
         else {
             console.log("Please add category.");
         }
-        // this.start();
+
         const price = getInput("Enter price:");
         if (price && typeof price === 'string') {
             gameObj.price = price;
@@ -138,31 +138,43 @@ class Interface {
         // console.log(gameObj);
     }
 
-    // gameManagement() {
-    //   console.log("game operations");
-    // }
 
-    // categoryManagement() {
-    //   console.log("categories operations");
-    // }
+    searchBy() {
+        console.log("This function will search a game by a specific input:");
+        console.log("1- search by game name");
+        console.log("2- search by category name");
+        console.log("3- publisher company name");
+        console.log("4- search by price");
+        const gameToSearch = getInput("Choose a number for search to select the type of search :");
 
-    // publisherManagement() {
-    //   console.log("publisher operations");
-    // }
+        if (gameToSearch == 1) {
+            this.gameService.liveSearch(searchType.byGameName);
+        } else if (gameToSearch == 2) {
+            this.gameService.liveSearch(searchType.byCategory);
+        } else if (gameToSearch == 3) {
+            this.gameService.liveSearch(searchType.byPublisher);
+        } else if (gameToSearch == 4) {
+            this.gameService.liveSearch(searchType.byPrice);
+        } else {
+            console.log("please enter a number between 1-4");
+        }
 
+    }
     start() {
-        console.log("Enter a number to choose a CRUD operation:");
+        console.log("Enter a number to choose the operation that you want:");
         console.log("1 - Create a new game");
-        console.log("2 - Get the game");
+        console.log("2 - Get a list of the games");
         console.log("3 - Edit game");
         console.log("4 - Delete game");
+        console.log("5- Add category");
+        console.log("6- Add publisher");
+        console.log("7- Search by");
+
         const choice = getInput("Please select an option:");
         if (!choice || typeof +choice !== 'number') {
             console.log("please enter a valid input");
         }
-        console.log(choice);
-        console.log(+choice);
-        console.log(parseInt(choice));
+
         switch (+choice) {
 
             case 1:
@@ -170,30 +182,88 @@ class Interface {
                 this.addNewGame();
 
                 break;
-
             case 2:
-                //         const editGame = getInput("Enter :");
-                // if (requirements && typeof requirements === 'string' && isNaN(requirements)) {
-                //     gameObj.requirements = requirements;
-                // } else {
-                //     console.clear();
-                //     console.log("please enter a valid requirements \n return the user to add a new game");
-                //     this.addNewGame();
-                // }
+                console.log("This function will git the list of games:");
+                console.log(this.gameService.getGameList());
+                const map = this.gameService.getGameList().map(((game, index) => {
+                    console.log(`
+Game ${index + 1} Information:
+----------------
+ID: ${game.id}
+Game Name: ${game.gameName}
+Description: ${game.description}
+Publisher: ${game.publisherCompany.publisherName} (ID: ${game.publisherCompany.id})
+Category: ${game.category.categoryName} (ID: ${game.category.id})
+Price: $${game.price}
+Game State: ${game.gameState}
+Requirements: ${game.requirements}
+Discount Percentage: ${game.discountPercentage}%
+                        `);
 
-                //          this.gameService.editGame("ff");
+                }));
+
+
+                this.start();
                 break;
-
             case 3:
-                // Handle editing a game here
-                // Implement code to edit a game
+                console.log("This function will edit the game according to the user choice:");
+                const gameToEdit = getInput("Enter a name of game to edit:");
+                if (gameToEdit && isNaN(gameToEdit) && typeof gameToEdit === 'string') {
+                    if (this.gameService.editGame(gameToEdit)) {
+                        console.log("edit done");
+                        this.start();
+                    } else {
+                        console.log("edit failed");
+                    }
+
+
+                }
                 break;
+
 
             case 4:
-                // Handle deleting a game here
-                // Implement code to delete a game
+                console.log("This function will delete according to the user choice ");
+                const gameToDelete = getInput("Enter a name of game to delete it :");
+                if (gameToDelete && isNaN(gameToDelete) && typeof gameToDelete === 'string') {
+                    if (this.gameService.deleteGame(gameToDelete)) {
+                        console.log("delete done");
+                        this.start();
+                    } else {
+                        console.log("delete failed");
+                    }
+                }
+                break;
+            case 5:
+                console.log("This function will add a new category:");
+                const addNewCategoryName = getInput("Enter a name of category :");
+                if (addNewCategoryName && typeof addNewCategoryName === 'string') {
+                    let newCategory = new Category(addNewCategoryName);
+                    this.categoryService.addCategory(newCategory);
+                    console.log("completed adding a category");
+                } else {
+                    console.log("failed to add a category");
+                }
+                this.start();
                 break;
 
+            case 6:
+
+                console.log("This function will add a new publisher:");
+                const addNewPublisherName = getInput("Enter a name of publisher company :");
+                if (addNewPublisherName && typeof addNewPublisherName === 'string') {
+                    let newPublisher = new Publisher(addNewPublisherName);
+                    this.publisherService.addPublisher(newPublisher);
+                    console.log("completed adding a publisher ");
+                } else {
+                    console.log("failed to add a publisher");
+                }
+                this.start();
+                break;
+
+            case 7:
+                this.searchBy();
+
+                break;
             default:
                 console.log("Invalid choice. Please select a valid option (1-4).");
                 break;
