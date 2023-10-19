@@ -1,9 +1,10 @@
-import { validationFunction ,getInput } from "./helper.mjs";
+import { validationFunction, searchType, getInput } from "./helper.mjs";
 import { Publisher } from './Publisher.mjs'
 import { Category } from './Category.mjs'
 import { Game } from './Game.mjs'
 import { CategoryService } from "./CategoryService.mjs";
 import { PublisherService } from "./PublisherService.mjs"
+import readlineSync from 'readline-sync';
 export class GameService {
     gameList;
     constructor() {
@@ -11,7 +12,19 @@ export class GameService {
     }
 
     editGameProperties = (game) => {
-        console.log(game);
+        console.log(`
+Game Information:
+----------------
+ID: ${game.id}
+Game Name: ${game.gameName}
+Description: ${game.description}
+Publisher: ${game.publisherCompany.publisherName} (ID: ${game.publisherCompany.id})
+Category: ${game.category.categoryName} (ID: ${game.category.id})
+Price: $${game.price}
+Game State: ${game.gameState}
+Requirements: ${game.requirements}
+Discount Percentage: ${game.discountPercentage}%
+                        `);
         console.log("-------------------------------------------------------------");
         console.log("1- edit game name");
         console.log("2- edit category");
@@ -21,6 +34,7 @@ export class GameService {
         console.log("6- edit gameState");
         console.log("7- edit requirements");
         console.log("8- edit discountPercentage");
+        console.log("9- go back");
         const option = getInput("Please select option:");
         switch (+option) {
             case 1:
@@ -126,6 +140,8 @@ export class GameService {
                     this.editGame(game.gameName);
                 }
                 break;
+                case 9:
+                break;
             default:
                 console.log("Please enter valid option!!");
                 this.editGame(game.gameName);
@@ -184,17 +200,87 @@ export class GameService {
             return false;
         }
     }
+
+    async liveSearch(by) {
+        let filteredData;
+
+        console.log('Type your search query and press Enter to search. Type "0" and press Enter to stop search.');
+        const searchQuery = readlineSync.question(`Search by ${by}: `);
+
+        if (searchQuery === "0") {
+            console.log("search stop.");
+            return;
+        } else {
+            if (by === 'game name') {
+                filteredData = this.gameList.filter(item => item.gameName.toLowerCase().includes(searchQuery.toLowerCase()));
+            } else if (by === 'category name') {
+                filteredData = this.gameList.filter(item => item.category.categoryName.toLowerCase().includes(searchQuery.toLowerCase()));
+            } else if (by === 'publisher company name') {
+                filteredData = this.gameList.filter(item => item.publisherCompany.publisherName.toLowerCase().includes(searchQuery.toLowerCase()));
+            } else {
+                filteredData = this.gameList.filter(item => item.price <= +searchQuery);
+            }
+
+            if (filteredData.length > 0) {
+                console.log('Results:');
+              await  filteredData.forEach((game, index) => {
+                    console.log(`
+Game ${index + 1} Information:
+----------------
+ID: ${game.id}
+Game Name: ${game.gameName}
+Description: ${game.description}
+Publisher: ${game.publisherCompany.publisherName} (ID: ${game.publisherCompany.id})
+Category: ${game.category.categoryName} (ID: ${game.category.id})
+Price: $${game.price}
+Game State: ${game.gameState}
+Requirements: ${game.requirements}
+Discount Percentage: ${game.discountPercentage}%
+                        `);
+                });
+    console.log(`To perform an operation on a specific game,
+   - To modify it, Type "1" and press Enter.
+   - To delete, Type "2" and press Enter 
+   - To stop the search, Type "0" and press Enter`);
+                let option = getInput("Please choose option:");
+               
+                if (+option === 1) {
+                    let gameNumber = getInput("Please Enter game number want modify:");
+
+                    if (+gameNumber <= filteredData.length && +gameNumber > 0) {
+                        this.editGame(filteredData[gameNumber - 1]?.gameName);
+                    } else {
+                        console.log("Please enter valid game number!");
+                    }
+                } else if (+option === 2) {
+                    let gameNumber = getInput("Please Enter game number want delete:");
+
+                    if (+gameNumber <= filteredData.length && +gameNumber > 0) {
+                        this.deleteGame(filteredData[gameNumber - 1]?.gameName);
+                    } else {
+                        console.log("Please enter valid game number!");
+                    }
+                } else {
+                    return;
+                }
+                
+            } else {
+                console.log('No results found.');
+            }
+            this.liveSearch(by);
+        }
+    }
 }
 
-const gameService = new GameService();
-    const publicherCompany = new Publisher("Apple");
-    const category = new Category("Action");
-    const categoryService = CategoryService;
-    categoryService.addCategory(category);
-    gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
-    gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
-    //gameService.deleteGame("apex");
-    gameService.editGame("apex");
-       //console.log(gameService.getGameList());
-
+// const gameService = new GameService();
+//     const publicherCompany = new Publisher("Apple");
+//     const category = new Category("Action");
+//     const categoryService = CategoryService;
+//     categoryService.addCategory(category);
+//     gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+//     gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+//     //gameService.deleteGame("apex");
+//    // gameService.editGame("apex");
+//        //console.log(gameService.getGameList());
+//     gameService.liveSearch(searchType.byPrice);
 
