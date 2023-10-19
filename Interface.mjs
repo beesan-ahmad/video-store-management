@@ -1,12 +1,12 @@
+import { GameService } from './GameService.mjs';
 import { CategoryService } from './CategoryService.mjs';
 import { getInput, searchType } from './helper.mjs';
-import { GameService } from './GameService.mjs';
 import { PublisherService } from './PublisherService.mjs';
 import { Publisher } from './Publisher.mjs';
 import { Category } from './Category.mjs';
 
 const publisherService = PublisherService;
-class Interface {
+export class Interface {
 
     gameService = new GameService();
     categoryService = CategoryService;
@@ -148,7 +148,9 @@ class Interface {
         const gameToSearch = getInput("Choose a number for search to select the type of search :");
 
         if (gameToSearch == 1) {
-            this.gameService.liveSearch(searchType.byGameName);
+            if (this.gameService.liveSearch(searchType.byGameName) === -1) {
+                this.start();
+            }
         } else if (gameToSearch == 2) {
             this.gameService.liveSearch(searchType.byCategory);
         } else if (gameToSearch == 3) {
@@ -160,15 +162,15 @@ class Interface {
         }
 
     }
-    start() {
+     start() {
         console.log("Enter a number to choose the operation that you want:");
         console.log("1 - Create a new game");
         console.log("2 - Get a list of the games");
         console.log("3 - Edit game");
         console.log("4 - Delete game");
-        console.log("5- Add category");
-        console.log("6- Add publisher");
-        console.log("7- Search by");
+        console.log("5 - Add category");
+        console.log("6 - Add publisher");
+        console.log("7 - Search by");
 
         const choice = getInput("Please select an option:");
         if (!choice || typeof +choice !== 'number') {
@@ -184,8 +186,7 @@ class Interface {
                 break;
             case 2:
                 console.log("This function will git the list of games:");
-                console.log(this.gameService.getGameList());
-                const map = this.gameService.getGameList().map(((game, index) => {
+                this.gameService.getGameList().map(((game, index) => {
                     console.log(`
 Game ${index + 1} Information:
 ----------------
@@ -214,6 +215,7 @@ Discount Percentage: ${game.discountPercentage}%
                         this.start();
                     } else {
                         console.log("edit failed");
+                        this.start();
                     }
 
 
@@ -230,6 +232,7 @@ Discount Percentage: ${game.discountPercentage}%
                         this.start();
                     } else {
                         console.log("delete failed");
+                        this.start();
                     }
                 }
                 break;
@@ -266,13 +269,8 @@ Discount Percentage: ${game.discountPercentage}%
                 break;
             default:
                 console.log("Invalid choice. Please select a valid option (1-4).");
+                this.start();
                 break;
         }
     }
 }
-
-const interfaceObj = new Interface();
-
-publisherService.addPublisher(new Publisher("amg"));
-CategoryService.addCategory(new Category("action"));
-interfaceObj.start();
