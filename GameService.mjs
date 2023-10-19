@@ -283,4 +283,3 @@ Discount Percentage: ${game.discountPercentage}%
 //    // gameService.editGame("apex");
 //        //console.log(gameService.getGameList());
 //     gameService.liveSearch(searchType.byPrice);
-
