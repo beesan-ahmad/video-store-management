@@ -168,9 +168,9 @@ export class Interface {
         console.log("2 - Get a list of the games");
         console.log("3 - Edit game");
         console.log("4 - Delete game");
-        console.log("5- Add category");
-        console.log("6- Add publisher");
-        console.log("7- Search by");
+        console.log("5 - Add category");
+        console.log("6 - Add publisher");
+        console.log("7 - Search by");
 
         const choice = getInput("Please select an option:");
         if (!choice || typeof +choice !== 'number') {
