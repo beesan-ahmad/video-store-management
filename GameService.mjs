@@ -12,7 +12,19 @@ export class GameService {
     }
 
     editGameProperties = (game) => {
-        console.log(game);
+        console.log(`
+Game Information:
+----------------
+ID: ${game.id}
+Game Name: ${game.gameName}
+Description: ${game.description}
+Publisher: ${game.publisherCompany.publisherName} (ID: ${game.publisherCompany.id})
+Category: ${game.category.categoryName} (ID: ${game.category.id})
+Price: $${game.price}
+Game State: ${game.gameState}
+Requirements: ${game.requirements}
+Discount Percentage: ${game.discountPercentage}%
+                        `);
         console.log("-------------------------------------------------------------");
         console.log("1- edit game name");
         console.log("2- edit category");
@@ -233,20 +245,20 @@ Discount Percentage: ${game.discountPercentage}%
                 let option = getInput("Please choose option:");
                
                 if (+option === 1) {
-                    let gameNumber = getInput("Please Enter  game number want modify:");
+                    let gameNumber = getInput("Please Enter game number want modify:");
 
-                    if (+gameNumber <= filteredData.length) {
+                    if (+gameNumber <= filteredData.length && +gameNumber > 0) {
                         this.editGame(filteredData[gameNumber - 1]?.gameName);
                     } else {
-                        console.log("Please enter valid option!");
+                        console.log("Please enter valid game number!");
                     }
                 } else if (+option === 2) {
-                    let gameNumber = getInput("Please Enter  game number want delete:");
+                    let gameNumber = getInput("Please Enter game number want delete:");
 
-                    if (+gameNumber <= filteredData.length) {
+                    if (+gameNumber <= filteredData.length && +gameNumber > 0) {
                         this.deleteGame(filteredData[gameNumber - 1]?.gameName);
                     } else {
-                        console.log("Please enter valid option!");
+                        console.log("Please enter valid game number!");
                     }
                 } else {
                     return;
@@ -260,15 +272,15 @@ Discount Percentage: ${game.discountPercentage}%
     }
 }
 
-const gameService = new GameService();
-    const publicherCompany = new Publisher("Apple");
-    const category = new Category("Action");
-    const categoryService = CategoryService;
-    categoryService.addCategory(category);
-    gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
-    gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
-    //gameService.deleteGame("apex");
-   // gameService.editGame("apex");
-       //console.log(gameService.getGameList());
-    gameService.liveSearch(searchType.byPrice);
+// const gameService = new GameService();
+//     const publicherCompany = new Publisher("Apple");
+//     const category = new Category("Action");
+//     const categoryService = CategoryService;
+//     categoryService.addCategory(category);
+//     gameService.addNewGame("apex", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+//     gameService.addNewGame("apex2", "this game for fun" ,publicherCompany, category, 50, true ,"gpu rtx ",10);
+//     //gameService.deleteGame("apex");
+//    // gameService.editGame("apex");
+//        //console.log(gameService.getGameList());
+//     gameService.liveSearch(searchType.byPrice);
 
