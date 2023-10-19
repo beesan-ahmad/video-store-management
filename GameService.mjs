@@ -109,11 +109,11 @@ Discount Percentage: ${game.discountPercentage}%
                 }
                 break;
             case 6:
-                console.log("game state 1-paid  2-free ");
+                console.log("game state 1- paid  2- free ");
                 let newGameState = getInput("Please choose state:");
     
                 if (newGameState && typeof +newGameState === 'number' && +newGameState > 0 && +newGameState <= 2) {
-                    game.editGameState(+newGameState === 1 ? true : false);
+                    game.editGameState(+newGameState === 1 ? 'paid' : 'free');
                     console.log(game);
                 } else {
                     console.log("Please enter valid state:");
@@ -212,11 +212,11 @@ Discount Percentage: ${game.discountPercentage}%
             return;
         } else {
             if (by === 'game name') {
-                filteredData = this.gameList.filter(item => item.gameName.toLowerCase().includes(searchQuery.toLowerCase()));
+                filteredData = this.gameList.filter(item => item.gameName?.toLowerCase().includes(searchQuery?.toLowerCase()));
             } else if (by === 'category name') {
-                filteredData = this.gameList.filter(item => item.category.categoryName.toLowerCase().includes(searchQuery.toLowerCase()));
+                filteredData = this.gameList.filter(item => item.category.categoryName?.toLowerCase().includes(searchQuery?.toLowerCase()));
             } else if (by === 'publisher company name') {
-                filteredData = this.gameList.filter(item => item.publisherCompany.publisherName.toLowerCase().includes(searchQuery.toLowerCase()));
+                filteredData = this.gameList.filter(item => item.publisherCompany.publisherName?.toLowerCase().includes(searchQuery?.toLowerCase()));
             } else {
                 filteredData = this.gameList.filter(item => item.price <= +searchQuery);
             }
