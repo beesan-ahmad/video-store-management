@@ -27,4 +27,5 @@ for (let i = 1; i <= 10; i++) {
         10 // Set the discount percentage here
     );
 }
+console.clear();
 interfaceObj.start();
