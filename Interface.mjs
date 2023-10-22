@@ -147,21 +147,20 @@ export class Interface {
         console.log("4- search by price");
         const gameToSearch = getInput("Choose a number for search to select the type of search :");
 
-        if (gameToSearch == 1) {
-            if (this.gameService.liveSearch(searchType.byGameName) === -1) {
-                this.start();
-            }
-        } else if (gameToSearch == 2) {
-            this.gameService.liveSearch(searchType.byCategory);
-        } else if (gameToSearch == 3) {
-            this.gameService.liveSearch(searchType.byPublisher);
-        } else if (gameToSearch == 4) {
-            this.gameService.liveSearch(searchType.byPrice);
+        if (+gameToSearch === 1) {
+            this.gameService.liveSearch(searchType.byGameName)
+        } else if (+gameToSearch === 2) {
+            this.gameService.liveSearch(searchType.byCategory)
+        } else if (+gameToSearch === 3) {
+            this.gameService.liveSearch(searchType.byPublisher)
+        } else if (+gameToSearch === 4) {
+            this.gameService.liveSearch(searchType.byPrice)
         } else {
             console.log("please enter a number between 1-4");
         }
-
+        this.start();
     }
+
      start() {
         console.log("Enter a number to choose the operation that you want:");
         console.log("1 - Create a new game");
